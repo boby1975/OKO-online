@@ -177,11 +177,9 @@ Public Class Form_main
                     BtnArray_time(i) = New Label()
                     BtnArray_time(i).Name = "time_" & CStr(i)
                     BtnArray_time(i).Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-                    'BtnArray_time(i).Text = Now().ToString("dd/MM/yy H:mm:ss")
                     BtnArray_time(i).TextAlign = ContentAlignment.MiddleCenter
                     'Set up the ToolTip text for the Button
-                    ToolTip1.SetToolTip(BtnArray_time(i), "Час надходження останніх даних від об'єкту ") ' & BtnArray_object(i).Text)
-                    'TableLayoutPanel_object.Controls.Add(BtnArray_time(i), 0, i) 'TableLayoutPanel_object.RowCount - offset
+                    ToolTip1.SetToolTip(BtnArray_time(i), "Час надходження останніх даних від об'єкту ") 
                 End If
 
                 BtnArray_object(i) = New Button()
@@ -205,12 +203,7 @@ Public Class Form_main
                     ToolTip1.SetToolTip(BtnArray_arm(i), "Переключення стану охорони на протилежний - об'єкт " & BtnArray_object(i).Text)
 
                     BtnArray_arm(i).BackgroundImageLayout = ImageLayout.Stretch
-                    'If (i Mod 2 = 0) Then
-                    'BtnArray_arm(i).BackgroundImage = Image.FromFile(startup_path & "\config\" & ARMED & ".jpg") 'Nothing My.Resources.Resources.power_on
-                    'Else
-                    ' BtnArray_arm(i).BackgroundImage = Image.FromFile(startup_path & "\config\" & DISARMED & ".jpg") 'Nothing My.Resources.Resources.power_on
-                    'End If
-                    'TableLayoutPanel_object.Controls.Add(BtnArray_arm(i), view_time + 1, i) 'TableLayoutPanel_object.RowCount - offset
+                   
                     AddHandler BtnArray_arm(i).Click, AddressOf Arm_ClickHandler
                 End If
 
@@ -361,7 +354,7 @@ Public Class Form_main
             Me.Label_test.Text = "object click "
 
             Dim client As ConnectedClient
-            'MsgBox("I am button Object #" & CType(sender, Button).Name)
+
             Dim fields As String() = Strings.Split(CType(sender, Button).Name, "_")
             If fields.Length = 2 Then
                 If (object_properties(CInt(fields(1))).connected) Then
@@ -384,7 +377,7 @@ Public Class Form_main
    System.EventArgs)
         Try
             Me.Label_test.Text = "output click "
-            'MsgBox("I am button Output #" & CType(sender, Button).Name)
+           
             Dim client As ConnectedClient
             Dim fields As String() = Strings.Split(CType(sender, Button).Name, "_")
             If fields.Length = 3 Then
@@ -443,8 +436,7 @@ Public Class Form_main
     Private Sub doListen()
         Try
             Dim incomingClient As System.Net.Sockets.TcpClient
-            'Create delegate for updating connection count label 
-            'Dim doUpdateConnectionCountLabel As New Action(AddressOf UpdateConnectionCountLabel)
+           
             Do
 
                 incomingClient = listener.AcceptTcpClient 'Accept the incoming connection. This is a blocking method so execution will halt here until someone tries to connect.
@@ -454,9 +446,6 @@ Public Class Form_main
                 AddHandler connClient.dataReceived, AddressOf Me.messageReceived
 
                 clients.Add(connClient) 'Adds the connected client to the list of connected clients.
-
-                'Update the connection count label and report status 
-                'Me.Invoke(doUpdateConnectionCountLabel)
 
             Loop
 
@@ -471,15 +460,10 @@ Public Class Form_main
 
     Public Sub RemoveClient(ByVal client As ConnectedClient)
         Try
-            'Create delegate for updating connection count label 
-            'Dim doUpdateConnectionCountLabel As New Action(AddressOf UpdateConnectionCountLabel)
 
             If clients.Contains(client) Then
 
                 clients.Remove(client)
-
-                'Update the connection count label and report status 
-                'Me.Invoke(doUpdateConnectionCountLabel)
 
             End If
 
@@ -857,26 +841,18 @@ Public Class Form_main
             Dim unknown_packet = False
 
             Dim data As mesage_properties_str 'message for GUI
-            'Create delegate for updating GUI display
-            'Dim do_GUI As New Action(Of mesage_properties_str)(AddressOf doGUI)
-
-            'Dim doRefreshGUI As New Action(Of String)(AddressOf RefreshGUI)
-            'Dim doRemoveClientGUI As New Action(Of String)(AddressOf RemoveClientGUI)
 
             If (remove_client) Then
                 data.message = imei
                 data.options = REMOVE_CLIENT_GUI
-                doGUI(data) 'Me.Invoke(do_GUI, data) 'Me.Invoke(doRemoveClientGUI, imei)
+                doGUI(data) 
                 RemoveClient(sender)
             Else
-                'Create delegate for updating output display 
-                'Dim doAppendOutput As New Action(Of String)(AddressOf AppendOutput)
-                'Dim doAppendInfo As New Action(Of String)(AddressOf AppendInfo)
 
                 'logging 
                 data.message = message
                 data.options = APPEND_OUTPUT
-                doGUI(data) 'Me.Invoke(do_GUI, data) ' Me.Invoke(doAppendOutput, message)
+                doGUI(data) 
 
                 Dim parts_ As String() = Strings.Split(message, "{")
                 If parts_.Length = 2 Then
@@ -888,7 +864,7 @@ Public Class Form_main
                             sender.imei = fields(0)
                             data.message = parts(0)
                             data.options = REFRESH_GUI
-                            doGUI(data) 'Me.Invoke(do_GUI, data) 'Me.Invoke(doRefreshGUI, parts(0))
+                            doGUI(data) 
                         Else
                             unknown_packet = True
                         End If
@@ -902,7 +878,7 @@ Public Class Form_main
                 If (unknown_packet) Then
                     data.message = "Невідомий формат пакету: " + message
                     data.options = APPEND_INFO
-                    doGUI(data) ' Me.Invoke(do_GUI, data) 'Me.Invoke(doAppendInfo, "Невідомий формат пакету: " + message)
+                    doGUI(data) 
                 End If
 
             End If
