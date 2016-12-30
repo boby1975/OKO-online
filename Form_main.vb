@@ -223,12 +223,7 @@ Public Class Form_main
                     'Set up the ToolTip text for the Button
                     ToolTip1.SetToolTip(BtnArray_220(i), "Поточний стан 220В на об'єкті " & BtnArray_object(i).Text)
                     BtnArray_220(i).BackgroundImageLayout = ImageLayout.Stretch
-                    'If (i Mod 2 = 0) Then
-                    'BtnArray_220(i).BackgroundImage = Image.FromFile(startup_path & "\config\" & _220_ON & ".jpg") 'Nothing My.Resources.Resources.power_on
-                    'Else
-                    'BtnArray_220(i).BackgroundImage = Image.FromFile(startup_path & "\config\" & _220_OFF & ".jpg") 'Nothing My.Resources.Resources.power_on
-                    'End If
-                    'TableLayoutPanel_object.Controls.Add(BtnArray_220(i), view_time + 1 + view_arm, i) 'TableLayoutPanel_object.RowCount - offset
+                    
                 End If
 
                 For k = 0 To num_input - 1
@@ -240,12 +235,7 @@ Public Class Form_main
                     BtnArray_input(k, i).Text = "i" & CStr(k + 1)
                     BtnArray_input(k, i).TextAlign = ContentAlignment.TopLeft
                     BtnArray_input(k, i).BackgroundImageLayout = ImageLayout.Stretch
-                    'If (i Mod 2 = 1) Then
-                    'BtnArray_input(k, i).BackgroundImage = Image.FromFile(startup_path & "\config\" & INPUT_NORMA & CStr(k + 1) & ".jpg") 'Nothing My.Resources.Resources.power_on
-                    'Else
-                    'BtnArray_input(k, i).BackgroundImage = Image.FromFile(startup_path & "\config\" & INPUT_TREVOGA & CStr(k + 1) & ".jpg") 'Nothing My.Resources.Resources.power_on
-                    'End If
-                    'TableLayoutPanel_object.Controls.Add(BtnArray_input(k, i), view_time + 1 + view_arm + view_220 + k, i) 'TableLayoutPanel_object.RowCount - offset
+                    
                 Next
 
 
@@ -258,12 +248,7 @@ Public Class Form_main
                     BtnArray_output(k, i).Text = "o" & CStr(k + 1)
                     BtnArray_output(k, i).TextAlign = ContentAlignment.TopLeft
                     BtnArray_output(k, i).BackgroundImageLayout = ImageLayout.Stretch
-                    'If (i Mod 2 = 1) Then
-                    'BtnArray_output(k, i).BackgroundImage = Image.FromFile(startup_path & "\config\" & OUTPUT_OFF & CStr(k + 1) & ".jpg") 'Nothing My.Resources.Resources.power_on
-                    'Else
-                    'BtnArray_output(k, i).BackgroundImage = Image.FromFile(startup_path & "\config\" & OUTPUT_ON & CStr(k + 1) & ".jpg") 'Nothing My.Resources.Resources.power_on
-                    'End If
-                    'TableLayoutPanel_object.Controls.Add(BtnArray_output(k, i), view_time + 1 + view_arm + view_220 + num_input + k, i) 'TableLayoutPanel_object.RowCount - offset
+                    
                     AddHandler BtnArray_output(k, i).Click, AddressOf Output_ClickHandler
                 Next
 
